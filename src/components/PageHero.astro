@@ -1,0 +1,39 @@
+---
+import CourtLines from './CourtLines.astro';
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  image?: string;
+  imageAlt?: string;
+  crumbs?: { label: string; href?: string }[];
+}
+const { eyebrow, title, lead, image, imageAlt = '', crumbs } = Astro.props;
+---
+<section class="page-hero on-dark">
+  <CourtLines />
+  <img class="hero-mark" src="/images/site/eagle-mark.png" alt="" width="512" height="498" />
+  <div class={`container page-hero__grid ${image ? 'page-hero__grid--img' : ''}`}>
+    <div>
+      {crumbs && (
+        <nav class="page-hero__crumbs" aria-label="Breadcrumb">
+          {crumbs.map((c, i) => (
+            <>
+              {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+              {i < crumbs.length - 1 && <span aria-hidden="true"> / </span>}
+            </>
+          ))}
+        </nav>
+      )}
+      {eyebrow && <p class="eyebrow" style="margin-top: var(--sp-5)">{eyebrow}</p>}
+      <h1 data-reveal>{title}</h1>
+      {lead && <p class="lead" data-reveal style="--d:.08s">{lead}</p>}
+      <slot />
+    </div>
+    {image && (
+      <div class="photo page-hero__media" data-reveal style="--d:.15s">
+        <img src={image} alt={imageAlt} width="1200" height="900" fetchpriority="high" />
+      </div>
+    )}
+  </div>
+</section>

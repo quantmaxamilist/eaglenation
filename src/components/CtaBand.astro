@@ -1,0 +1,33 @@
+---
+import { org } from '../data/site';
+import Icon from './Icon.astro';
+import CourtLines from './CourtLines.astro';
+interface Props { title?: string; text?: string }
+// Default copy is the old site's own call to action from the Services block.
+const { title = 'Get involved', text = 'Please contact us to enroll and find more details.' } = Astro.props;
+---
+<section class="cta-band on-dark">
+  <CourtLines />
+  <div class="container cta-band__inner">
+    <div data-reveal>
+      <p class="eyebrow">Eagle Nation · Coventry</p>
+      <h2>{title}</h2>
+      <p class="lead">{text}</p>
+    </div>
+    <div class="cta-band__actions" data-reveal style="--d:.1s">
+      <a class="btn" href="/contact/">Contact us <Icon name="arrow" /></a>
+      <a class="cta-band__phone" href={org.phoneHref}><span class="muted">or call</span> {org.phoneDisplay}</a>
+    </div>
+  </div>
+</section>
+<style>
+  .cta-band { position: relative; isolation: isolate; overflow: hidden; background: var(--ink-900); color: var(--paper); padding-block: var(--section-y); }
+  .cta-band__inner { display: grid; gap: var(--sp-6); align-items: end; }
+  @media (min-width: 900px) { .cta-band__inner { grid-template-columns: 1.4fr 1fr; } }
+  .cta-band h2 { font-size: var(--step-6); margin-top: var(--sp-4); }
+  .cta-band .lead { margin-top: var(--sp-4); color: var(--ink-300); }
+  .cta-band__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-5); }
+  @media (min-width: 900px) { .cta-band__actions { justify-content: flex-end; } }
+  .cta-band__phone { font-family: var(--font-mono); font-size: 1.05rem; color: var(--white); text-decoration: none; }
+  .cta-band__phone:hover { color: #ff8a8e; }
+</style>

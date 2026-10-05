@@ -1,0 +1,19 @@
+---
+// Tiled gallery: fixed tile ratio, optional spans so every row fills evenly.
+// span: 'tall' = 1×2, 'wide' = 2×1, 'feature' = 2×2.
+type Img = { src: string; alt: string; w: number; h: number; span?: 'tall' | 'wide' | 'feature'; pos?: string };
+interface Props { images: Img[]; id: string; ratio?: string }
+const { images, id, ratio = '4 / 3' } = Astro.props;
+---
+<div class="gallery" data-gallery={id} style={`--tile:${ratio}`}>
+  {images.map((im, i) => (
+    <button
+      class={`gallery__item ${im.span ? `gallery__item--${im.span}` : ''}`}
+      type="button" data-index={i} data-full={im.src} data-alt={im.alt}
+      data-reveal style={`--d:${(i % 4) * 0.05}s`}
+      aria-label={`Open photo ${i + 1} of ${images.length}: ${im.alt}`}
+    >
+      <img src={im.src} alt={im.alt} width={im.w} height={im.h} loading="lazy" decoding="async" style={im.pos ? `object-position:${im.pos}` : undefined} />
+    </button>
+  ))}
+</div>

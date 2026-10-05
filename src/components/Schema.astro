@@ -1,0 +1,28 @@
+---
+import { org, socials, SITE_URL } from '../data/site';
+// Organisation details exactly as published on the old site (contact page, privacy
+// policy and footer). Company number verified on Companies House.
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE_URL}/#organization`,
+  name: org.name,
+  legalName: org.legalName,
+  url: `${SITE_URL}/`,
+  logo: `${SITE_URL}/images/site/logo-colour.png`,
+  slogan: org.tagline,
+  telephone: '+44 7803 492996',
+  email: org.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: org.address.street,
+    addressLocality: org.address.city,
+    postalCode: org.address.postcode,
+    addressCountry: 'GB',
+  },
+  areaServed: ['Coventry', 'Warwickshire'],
+  identifier: { '@type': 'PropertyValue', propertyID: 'Companies House', value: org.companyNumber },
+  sameAs: socials.map((s) => s.href),
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

@@ -1,0 +1,136 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { products, SITE_URL, type Product } from '../../data/site';
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props as { p: Product };
+const others = products.filter((o) => o.slug !== p.slug).slice(0, 3);
+const prices = p.price.replace(/£/g, '').split('–').map((x) => x.trim());
+const productLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: p.name,
+  description: p.description,
+  image: p.images.map((im) => `${SITE_URL}${im.src}`),
+  brand: { '@type': 'Brand', name: 'Eagle Nation' },
+  offers: prices.length > 1
+    ? { '@type': 'AggregateOffer', priceCurrency: 'GBP', lowPrice: prices[0], highPrice: prices[1], availability: 'https://schema.org/InStock', url: `${SITE_URL}/shop/${p.slug}/` }
+    : { '@type': 'Offer', priceCurrency: 'GBP', price: prices[0], availability: 'https://schema.org/InStock', url: `${SITE_URL}/shop/${p.slug}/` },
+};
+---
+<Base title={`${p.name} – Eagle Nation`} description={`${p.name} (${p.subtitle}) from the Eagle Nation shop. ${p.price}.`} image={p.images[0].src}>
+  <script type="application/ld+json" set:html={JSON.stringify(productLd)} />
+  <section class="pdp-top on-dark">
+    <div class="container">
+      <nav class="page-hero__crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> <span aria-hidden="true">/</span> <a href="/shop/">Shop</a> <span aria-hidden="true">/</span> <span aria-current="page">{p.name}</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section pdp">
+    <div class="container pdp__grid">
+      <div class="pdp__gallery" data-product-gallery>
+        <div class="pdp__main">
+          <img data-product-main src={p.images[0].src} alt={p.images[0].alt} width="1000" height="1000" fetchpriority="high" />
+        </div>
+        {p.images.length > 1 && (
+          <div class="pdp__thumbs">
+            {p.images.map((im, i) => (
+              <button type="button" class="pdp__thumb" data-product-thumb data-src={im.src} data-alt={im.alt} aria-pressed={i === 0 ? 'true' : 'false'} aria-label={`Show image ${i + 1}: ${im.alt}`}>
+                <img src={im.src} alt="" width="160" height="160" loading="lazy" />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div class="pdp__info">
+        <p class="eyebrow">{p.categories.join(' · ')}</p>
+        <h1 class="pdp__name" set:html={p.name.replace(/(\S+-\S+)/g, '<span style="white-space:nowrap">$1</span>')} />
+        <p class="pdp__sub">{p.subtitle}</p>
+        <p class="pdp__price">{p.price}</p>
+
+        <dl class="pdp__opts">
+          {p.colours && (
+            <div><dt>Colour</dt><dd>{p.colours.map((c) => <span class="chip">{c}</span>)}</dd></div>
+          )}
+          <div><dt>Size</dt><dd>{p.sizes.map((s) => <span class="chip">{s}</span>)}</dd></div>
+        </dl>
+
+        <a class="btn pdp__buy" href={p.buyUrl} target="_blank" rel="noopener"><Icon name="bag" />Select options &amp; buy</a>
+        <p class="pdp__buy-note">Checkout opens on our current online store.</p>
+
+        <div class="pdp__desc">
+          <p>{p.description}</p>
+          <ul class="tick-list">
+            {p.features.map((f) => <li>{f}</li>)}
+          </ul>
+          {p.notes.map((n) => <p class="pdp__note">{n}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper-2">
+    <div class="container">
+      <div class="more-head">
+        <h2>More from the shop</h2>
+        <a class="link-arrow" href="/shop/">All products <Icon name="arrow" /></a>
+      </div>
+      <ul class="more" role="list">
+        {others.map((o) => (
+          <li>
+            <a class="more__card" href={`/shop/${o.slug}/`}>
+              <span class="more__img"><img src={o.images[0].src} alt={o.images[0].alt} width="1000" height="1000" loading="lazy" /></span>
+              <span class="more__name">{o.name}</span>
+              <span class="more__sub">{o.subtitle}</span>
+              <span class="more__price">{o.price}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pdp-top { background: var(--ink-900); padding-top: calc(var(--header-h) + 1.4rem); padding-bottom: 1.4rem; }
+  .pdp__grid { display: grid; gap: var(--sp-7); align-items: start; }
+  @media (min-width: 900px) { .pdp__grid { grid-template-columns: 1.05fr 0.95fr; gap: var(--sp-8); } }
+  @media (min-width: 900px) { .pdp__gallery { position: sticky; top: calc(var(--header-h) + 1.5rem); } }
+  .pdp__main { aspect-ratio: 1; background: var(--white); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--paper-3); }
+  .pdp__main img { width: 100%; height: 100%; object-fit: contain; }
+  .pdp__thumbs { display: flex; gap: 0.6rem; margin-top: 0.75rem; flex-wrap: wrap; }
+  .pdp__thumb { width: 5rem; aspect-ratio: 1; padding: 0; border-radius: var(--radius); overflow: hidden; background: var(--white); border: 2px solid var(--paper-3); transition: border-color 0.2s; }
+  .pdp__thumb[aria-pressed='true'] { border-color: var(--red-600); }
+  .pdp__thumb:hover { border-color: var(--ink-500); }
+  .pdp__thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  .pdp__name { font-size: var(--step-5); margin-top: var(--sp-4); }
+  .pdp__sub { margin-top: var(--sp-3); color: var(--ink-600); font-size: var(--step-1); }
+  .pdp__price { margin-top: var(--sp-4); font-family: var(--font-mono); font-size: var(--step-2); color: var(--red-600); }
+  .pdp__opts { display: grid; gap: var(--sp-4); margin-top: var(--sp-6); padding-block: var(--sp-5); border-block: 1px solid var(--paper-3); }
+  .pdp__opts dt { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-500); margin-bottom: 0.5rem; }
+  .pdp__opts dd { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .pdp__buy { margin-top: var(--sp-6); width: 100%; }
+  @media (min-width: 560px) { .pdp__buy { width: auto; } }
+  .pdp__buy-note { margin-top: var(--sp-3); font-size: 0.85rem; color: var(--ink-500); }
+  .pdp__desc { margin-top: var(--sp-7); display: grid; gap: var(--sp-5); color: var(--ink-700); }
+  .pdp__desc > p:first-child { font-size: var(--step-1); color: var(--ink-800); line-height: 1.55; }
+  .pdp__note { font-size: 0.92rem; color: var(--ink-500); padding: var(--sp-4); background: var(--paper-2); border-radius: var(--radius); }
+
+  .more-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--sp-4); margin-bottom: var(--sp-6); }
+  .more-head h2 { font-size: var(--step-4); }
+  .more { list-style: none; padding: 0; display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .more__card { display: grid; gap: 0.3rem; text-decoration: none; color: var(--ink-900); }
+  .more__img { display: block; aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden; background: var(--white); margin-bottom: var(--sp-2); }
+  .more__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease); }
+  .more__card:hover .more__img img { transform: scale(1.05); }
+  .more__name { font-weight: 700; }
+  .more__sub { font-size: 0.85rem; color: var(--ink-500); line-height: 1.35; }
+  .more__price { font-family: var(--font-mono); font-size: 0.9rem; color: var(--red-600); }
+</style>

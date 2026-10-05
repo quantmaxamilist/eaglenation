@@ -1,0 +1,412 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import CourtLines from '../components/CourtLines.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { home, services, sport, music, social, products } from '../data/site';
+
+const marquee = ['Football', 'Basketball', 'Recording', 'Singing', 'Dance', 'Songwriting', 'Coaching and Mentoring', 'Workshops', 'Leadership Development and Empowerment'];
+
+const programmes = [
+  { href: '/sport/', label: 'Sport', title: 'Football & Basketball', text: sport.intro.split('. ')[0] + '.', img: '/images/gallery/basketball-jump-shot.jpg', alt: 'Young players practising jump shots in a sports hall' },
+  { href: '/music/', label: 'Music', title: 'Recording, Singing, Dance & Songwriting', text: music.intro[0].split('. ')[0] + '.', img: '/images/stock/music-producer-studio.jpg', alt: 'A producer at a mixing desk in a recording studio' },
+  { href: '/social-activity/', label: 'Social activities', title: 'Tournaments & Community', text: social.body[2].split('. ')[0] + '.', img: '/images/gallery/community-day-05.jpg', alt: 'Players and organisers gathered at an Eagle Nation community day' },
+];
+
+const shopPicks = products.slice(0, 4);
+---
+<Base
+  title={home.title}
+  description="Eagle Nation is a social enterprise in Coventry delivering football, basketball and music sessions for children and young people across Coventry and Warwickshire."
+>
+  <!-- ============================================================ HERO -->
+  <section class="hero on-dark">
+    <CourtLines />
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow">Social enterprise · Coventry &amp; Warwickshire</p>
+        <h1 class="hero__title">
+          <span class="hero__line" style="--d:.05s">Football.</span>
+          <span class="hero__line" style="--d:.15s">Basketball.</span>
+          <span class="hero__line hero__line--outline" style="--d:.25s">Music.</span>
+        </h1>
+        <p class="lead hero__lead">
+          Eagle Nation is a dedicated social enterprise in Coventry. {home.about[2].split('. ').slice(-1)[0]}
+        </p>
+        <div class="hero__actions">
+          <a class="btn" href="/sport/">Sport sessions <Icon name="arrow" /></a>
+          <a class="btn btn--ghost" href="/music/">Music projects</a>
+        </div>
+
+        <a class="fixture" href="/sport/#football">
+          <span class="fixture__tag">Weekly</span>
+          <span class="fixture__body">
+            <span class="fixture__title">{sport.football.groups} football training</span>
+            <span class="fixture__meta"><Icon name="calendar" />Every {sport.football.day} · {sport.football.time}</span>
+            <span class="fixture__meta"><Icon name="pin" />Loch Hall School, Blackberry Lane, CV2 3JS</span>
+          </span>
+          <Icon name="arrow-up-right" class="fixture__arrow" />
+        </a>
+      </div>
+
+      <div class="hero__media" data-tilt>
+        <div class="photo hero__photo hero__photo--main" data-depth="10">
+          <img src="/images/gallery/basketball-one-on-one.jpg" alt="A coach guarding a young player during an Eagle Nation basketball drill" width="1350" height="1800" fetchpriority="high" />
+        </div>
+        <div class="photo hero__photo hero__photo--sub" data-depth="22">
+          <img src="/images/gallery/football-3g-dribbling.jpg" alt="Young players dribbling through cones on a 3G pitch" width="1800" height="1350" />
+        </div>
+        <div class="photo hero__photo hero__photo--mini" data-depth="30">
+          <img src="/images/stock/music-singer-stage.jpg" alt="" width="1200" height="1800" />
+        </div>
+        <div class="hero__badge" data-depth="16" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <defs><path id="badge-circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" /></defs>
+            <text><textPath href="#badge-circle">Ages 6–16 · Coventry · Ages 6–16 · Coventry ·</textPath></text>
+          </svg>
+          <img src="/images/site/eagle-mark.png" alt="" width="512" height="498" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ MARQUEE -->
+  <div class="marquee" aria-label="Activities">
+    {[0, 1].map((n) => (
+      <div class="marquee__track" aria-hidden={n === 1 ? 'true' : undefined}>
+        {marquee.map((m) => (
+          <span>{m}<img src="/images/site/eagle-mark.png" alt="" width="512" height="498" /></span>
+        ))}
+      </div>
+    ))}
+  </div>
+
+  <!-- ============================================================ ABOUT -->
+  <section class="section about" id="about">
+    <div class="container about__grid">
+      <div class="about__head">
+        <p class="eyebrow" data-reveal>About us</p>
+        <h2 data-reveal style="--d:.05s">{home.heading}</h2>
+        <p class="about__pull" data-reveal style="--d:.1s">Our goal has always been simple yet profound: <em>to unite and inspire.</em></p>
+
+        <dl class="facts" data-reveal style="--d:.15s">
+          <div class="fact"><dt>Ages</dt><dd><span class="fact__num">6–16</span><span class="fact__label">Sport classes for kids and youth</span></dd></div>
+          <div class="fact"><dt>Sports</dt><dd><span class="fact__num">2</span><span class="fact__label">Football and basketball</span></dd></div>
+          <div class="fact"><dt>Music</dt><dd><span class="fact__num">4</span><span class="fact__label">Projects: recording, singing, dance, songwriting</span></dd></div>
+          <div class="fact"><dt>Football</dt><dd><span class="fact__num">U12·U13</span><span class="fact__label">Training every Saturday, 12:00 PM</span></dd></div>
+        </dl>
+      </div>
+      <div class="about__body prose">
+        {home.about.map((p, i) => <p class={i === 0 ? 'lead' : ''} data-reveal>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ PROGRAMMES -->
+  <section class="section section--paper-2 programmes">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-reveal>What we run</p>
+        <h2 data-reveal style="--d:.05s">Sport, music and community</h2>
+      </div>
+      <div class="programmes__grid">
+        {programmes.map((p, i) => (
+          <a class="prog" href={p.href} data-reveal style={`--d:${i * 0.08}s`}>
+            <div class="photo prog__img"><img src={p.img} alt={p.alt} width="900" height="1200" loading="lazy" /></div>
+            <div class="prog__body">
+              <span class="prog__label">{p.label}</span>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+              <span class="prog__more">Find out more <Icon name="arrow" /></span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ SERVICES -->
+  <section class="section section--white services" id="services">
+    <div class="container services__grid">
+      <div class="services__intro">
+        <p class="eyebrow" data-reveal>Services</p>
+        <h2 data-reveal style="--d:.05s">How we support young people</h2>
+        <p class="muted" data-reveal style="--d:.1s">{home.servicesIntro}</p>
+        <div class="services__preview" aria-hidden="true">
+          {services.map((s, i) => (
+            <div class={`photo services__preview-img ${i === 0 ? 'is-active' : ''}`} data-preview={i}>
+              <img src={s.image} alt="" width="1200" height="800" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <ol class="services__list" role="list">
+        {services.map((s, i) => (
+          <li data-reveal style={`--d:${i * 0.06}s`}>
+            <a class="svc" href={`/${s.slug}/`} data-svc={i}>
+              <span class="svc__num">0{i + 1}</span>
+              <span class="svc__text">
+                <span class="svc__title">{s.title}</span>
+                <span class="svc__excerpt">{s.body[0]}</span>
+              </span>
+              <span class="svc__go"><Icon name="arrow-up-right" /></span>
+              <span class="photo svc__thumb"><img src={s.image} alt="" width="600" height="400" loading="lazy" /></span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================================ MISSION (photo band) -->
+  <section class="mission on-dark">
+    <div class="photo mission__bg">
+      <img src="/images/stock/sport-hands-basketball.jpg" alt="" width="2200" height="1653" loading="lazy" />
+    </div>
+    <div class="container mission__inner">
+      <div class="mission__panel" data-reveal>
+        <p class="eyebrow">Our mission</p>
+        <p class="mission__text">{home.mission}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ VALUES -->
+  <section class="section values">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-reveal>What we stand for</p>
+        <h2 data-reveal style="--d:.05s">Our values</h2>
+      </div>
+      <ol class="values__grid" role="list">
+        {home.values.map((v, i) => (
+          <li class="value" data-reveal style={`--d:${i * 0.08}s`}>
+            <span class="index-num">0{i + 1}</span>
+            <h3>{v.name}</h3>
+            <p>{v.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================================ SHOP -->
+  <section class="section section--paper-2 shop-teaser">
+    <div class="container">
+      <div class="section-head section-head--row">
+        <div>
+          <p class="eyebrow" data-reveal>Shop</p>
+          <h2 data-reveal style="--d:.05s">Eagle Nation merch</h2>
+        </div>
+        <a class="link-arrow" href="/shop/" data-reveal>View the shop <Icon name="arrow" /></a>
+      </div>
+      <ul class="shop-teaser__grid" role="list">
+        {shopPicks.map((p, i) => (
+          <li data-reveal style={`--d:${i * 0.06}s`}>
+            <a class="mini-product" href={`/shop/${p.slug}/`}>
+              <span class="mini-product__img"><img src={p.images[0].src} alt={p.images[0].alt} width="1000" height="1000" loading="lazy" /></span>
+              <span class="mini-product__name">{p.name}</span>
+              <span class="mini-product__sub">{p.subtitle}</span>
+              <span class="mini-product__price">{p.price}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<script>
+  // Services: swap the preview photo to match the hovered/focused row (desktop).
+  const rows = document.querySelectorAll<HTMLElement>('[data-svc]');
+  const previews = document.querySelectorAll<HTMLElement>('[data-preview]');
+  rows.forEach((row) => {
+    const activate = () => previews.forEach((p) => p.classList.toggle('is-active', p.dataset.preview === row.dataset.svc));
+    row.addEventListener('mouseenter', activate);
+    row.addEventListener('focus', activate);
+  });
+</script>
+
+<style>
+  /* ---------------- Hero */
+  .hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    background:
+      radial-gradient(60% 70% at 85% 30%, rgb(4 112 185 / 0.22), transparent 70%),
+      radial-gradient(50% 60% at 10% 100%, rgb(193 39 45 / 0.16), transparent 70%),
+      var(--ink-900);
+    color: var(--paper);
+    padding-top: calc(var(--header-h) + clamp(1.5rem, 0.5rem + 3vw, 3.5rem));
+    padding-bottom: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+  .hero__grid { display: grid; gap: clamp(2.5rem, 1rem + 5vw, 5rem); align-items: center; }
+  @media (min-width: 980px) { .hero__grid { grid-template-columns: 1fr 1fr; } }
+
+  .hero__title { display: grid; font-size: clamp(3.5rem, 1.4rem + 7.4vw, 7.8rem); line-height: 0.86; margin-top: var(--sp-5); }
+  .hero__line { display: block; opacity: 0; transform: translateY(0.35em); animation: rise 1s var(--ease) var(--d) forwards; }
+  .hero__line--outline { color: transparent; -webkit-text-stroke: 2px var(--paper); }
+  @supports (background-clip: text) {
+    .hero__line--outline { -webkit-text-stroke: 0; background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .hero__lead { margin-top: var(--sp-5); max-width: 46ch; color: var(--ink-300); opacity: 0; animation: rise 1s var(--ease) 0.4s forwards; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-6); opacity: 0; animation: rise 1s var(--ease) 0.5s forwards; }
+
+  .fixture {
+    display: flex; align-items: center; gap: var(--sp-4);
+    margin-top: var(--sp-6); padding: 1rem 1.1rem; max-width: 30rem;
+    border-radius: var(--radius-lg); text-decoration: none; color: var(--paper);
+    background: rgb(255 255 255 / 0.05); border: 1px solid rgb(255 255 255 / 0.12);
+    transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease);
+    opacity: 0; animation: rise 1s var(--ease) 0.65s forwards;
+  }
+  .fixture:hover { background: rgb(255 255 255 / 0.09); border-color: rgb(255 255 255 / 0.25); transform: translateY(-2px); }
+  .fixture__tag {
+    flex: none; display: grid; place-items: center; width: 4.2rem; height: 4.2rem; border-radius: 10px;
+    background: var(--red-600); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .fixture__body { display: grid; gap: 0.2rem; min-width: 0; }
+  .fixture__title { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 1.35rem; line-height: 1.05; }
+  .fixture__meta { display: flex; align-items: center; gap: 0.45rem; font-size: 0.88rem; color: var(--ink-300); }
+  .fixture__meta :global(svg) { flex: none; width: 0.95rem; height: 0.95rem; color: #ff8a8e; }
+  .fixture :global(.fixture__arrow) { flex: none; margin-left: auto; width: 1.3rem; height: 1.3rem; color: var(--ink-400); transition: color 0.3s, transform 0.3s var(--ease); }
+  .fixture:hover :global(.fixture__arrow) { color: var(--white); transform: translate(2px, -2px); }
+
+  .hero__media { position: relative; aspect-ratio: 1 / 1.02; max-width: 640px; width: 100%; margin-inline: auto; }
+  .hero__photo { position: absolute; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); transition: transform 0.6s var(--ease); }
+  .hero__photo--main { inset: 0 6% 12% 22%; animation: rise 1.1s var(--ease) 0.2s both; }
+  .hero__photo--sub { left: 0; bottom: 0; width: 52%; aspect-ratio: 4 / 3; border: 4px solid var(--ink-900); animation: rise 1.1s var(--ease) 0.4s both; }
+  .hero__photo--mini { right: 0; bottom: 6%; width: 26%; aspect-ratio: 3 / 4; border: 4px solid var(--ink-900); animation: rise 1.1s var(--ease) 0.55s both; }
+  .hero__badge {
+    position: absolute; left: 6%; top: 4%; width: 26%; aspect-ratio: 1; border-radius: 50%;
+    display: grid; place-items: center; background: var(--paper); color: var(--ink-900);
+    box-shadow: var(--shadow-lg); transition: transform 0.6s var(--ease);
+    animation: rise 1.1s var(--ease) 0.7s both;
+  }
+  .hero__badge svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 22s linear infinite; }
+  .hero__badge text { font-family: var(--font-mono); font-size: 15.5px; letter-spacing: 0.12em; text-transform: uppercase; fill: var(--ink-900); }
+  .hero__badge img { width: 42%; height: auto; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------------- About */
+  .about__grid { display: grid; gap: var(--sp-7); }
+  @media (min-width: 980px) {
+    .about__grid { grid-template-columns: 0.95fr 1.05fr; gap: var(--sp-9); }
+    .about__head { position: sticky; top: calc(var(--header-h) + 2rem); align-self: start; }
+  }
+  .about h2 { margin-top: var(--sp-4); }
+  .about__pull {
+    margin-top: var(--sp-5); font-size: var(--step-2); line-height: 1.25; font-weight: 500; color: var(--ink-700); max-width: 26ch;
+  }
+  .about__pull em { font-style: normal; color: var(--red-600); font-weight: 700; }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: var(--sp-6); background: var(--paper-3); border: 1px solid var(--paper-3); border-radius: var(--radius-lg); overflow: hidden; }
+  .fact { background: var(--paper); padding: 1.1rem 1.1rem 1.2rem; }
+  .fact dt { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-500); }
+  .fact dd { display: grid; gap: 0.3rem; margin-top: 0.35rem; }
+  .fact__num { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.4rem, 1.8rem + 2vw, 3.4rem); line-height: 0.9; color: var(--ink-900); }
+  .fact__label { font-size: 0.9rem; line-height: 1.4; color: var(--ink-600); }
+  .about__body p:not(.lead) { color: var(--ink-700); }
+
+  /* ---------------- Section heads */
+  .section-head { margin-bottom: var(--sp-7); }
+  .section-head h2 { margin-top: var(--sp-4); }
+  .section-head--row { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--sp-5); }
+
+  /* ---------------- Programmes */
+  .programmes__grid { display: grid; gap: var(--sp-4); }
+  @media (min-width: 860px) { .programmes__grid { grid-template-columns: repeat(3, 1fr); } }
+  .prog {
+    position: relative; display: block; overflow: hidden; border-radius: var(--radius-lg);
+    min-height: clamp(26rem, 20rem + 12vw, 32rem); color: var(--white); text-decoration: none; background: var(--ink-900); isolation: isolate;
+  }
+  .prog__img { position: absolute; inset: 0; z-index: -1; }
+  .prog__img img { transition: transform 1s var(--ease); }
+  .prog:hover .prog__img img { transform: scale(1.06); }
+  .prog__img::before {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(180deg, rgb(13 17 26 / 0.05) 25%, rgb(13 17 26 / 0.92) 78%);
+  }
+  .prog__body { position: absolute; inset: auto 0 0 0; padding: var(--sp-6); display: grid; gap: var(--sp-3); }
+  .prog__label {
+    justify-self: start; padding: 0.3rem 0.7rem; border-radius: 999px; background: var(--red-600);
+    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .prog h3 { font-size: var(--step-3); line-height: 0.95; }
+  .prog p { color: rgb(255 255 255 / 0.82); font-size: 0.98rem; line-height: 1.55; }
+  .prog__more { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; margin-top: var(--sp-2); }
+  .prog__more :global(svg) { width: 1.1rem; height: 1.1rem; transition: transform 0.35s var(--ease); }
+  .prog:hover .prog__more :global(svg) { transform: translateX(5px); }
+
+  /* ---------------- Services */
+  .services__grid { display: grid; gap: var(--sp-7); }
+  @media (min-width: 980px) { .services__grid { grid-template-columns: 0.9fr 1.1fr; gap: var(--sp-9); } }
+  .services__intro h2 { margin-top: var(--sp-4); }
+  .services__intro p { margin-top: var(--sp-5); max-width: 52ch; }
+  .services__preview { display: none; position: relative; margin-top: var(--sp-6); aspect-ratio: 3 / 2; border-radius: var(--radius-lg); overflow: hidden; }
+  .services__preview-img { position: absolute; inset: 0; opacity: 0; transform: scale(1.04); transition: opacity 0.6s var(--ease), transform 0.9s var(--ease); }
+  .services__preview-img.is-active { opacity: 1; transform: none; }
+  @media (min-width: 980px) { .services__preview { display: block; } }
+
+  .services__list { list-style: none; padding: 0; border-top: 1px solid var(--paper-3); }
+  .services__list li { border-bottom: 1px solid var(--paper-3); }
+  .svc {
+    position: relative; display: grid; grid-template-columns: auto 1fr auto; gap: var(--sp-5); align-items: start;
+    padding: var(--sp-6) 0; text-decoration: none; color: var(--ink-900);
+  }
+  .svc::before {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--brand-gradient);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.6s var(--ease);
+  }
+  .svc:hover::before, .svc:focus-visible::before { transform: scaleX(1); }
+  .svc__num { font-family: var(--font-mono); font-size: 0.85rem; color: var(--red-600); padding-top: 0.55rem; }
+  .svc__text { display: grid; gap: 0.5rem; }
+  .svc__title { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: var(--step-3); line-height: 0.95; transition: color 0.3s; }
+  .svc:hover .svc__title { color: var(--blue-700); }
+  .svc__excerpt { color: var(--ink-600); font-size: 0.98rem; line-height: 1.55; max-width: 52ch; }
+  .svc__go {
+    display: grid; place-items: center; width: 2.8rem; height: 2.8rem; border-radius: 50%; border: 1px solid var(--paper-3);
+    transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.4s var(--ease);
+  }
+  .svc__go :global(svg) { width: 1.1rem; height: 1.1rem; }
+  .svc:hover .svc__go { background: var(--red-600); border-color: var(--red-600); color: var(--white); transform: rotate(45deg); }
+  .svc__thumb { grid-column: 2 / -1; border-radius: var(--radius); aspect-ratio: 16 / 9; }
+  @media (min-width: 980px) { .svc__thumb { display: none; } }
+
+  /* ---------------- Mission band */
+  .mission { position: relative; isolation: isolate; min-height: clamp(30rem, 60vw, 44rem); display: grid; align-items: center; padding-block: var(--sp-9); }
+  .mission__bg { position: absolute; inset: 0; z-index: -1; }
+  .mission__bg img { object-position: center 40%; }
+  .mission__bg::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgb(13 17 26 / 0.5), rgb(13 17 26 / 0.1)); }
+  .mission__panel {
+    max-width: 40rem; padding: clamp(1.75rem, 1rem + 3vw, 3.25rem);
+    background: var(--ink-900); color: var(--paper); border-radius: var(--radius-lg);
+    border-left: 6px solid var(--red-600); box-shadow: var(--shadow-lg);
+  }
+  .mission__text { margin-top: var(--sp-5); font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: var(--step-3); line-height: 1.02; }
+
+  /* ---------------- Values */
+  .values__grid { display: grid; gap: var(--sp-4); list-style: none; padding: 0; }
+  @media (min-width: 820px) { .values__grid { grid-template-columns: repeat(3, 1fr); } }
+  .value {
+    padding: var(--sp-6); border-radius: var(--radius-lg); background: var(--white); border: 1px solid var(--paper-3);
+    display: grid; gap: var(--sp-4); align-content: start;
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s;
+  }
+  .value:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: transparent; }
+  .value .index-num { -webkit-text-stroke-color: var(--red-600); }
+  .value h3 { font-size: var(--step-3); }
+  .value p { color: var(--ink-600); }
+
+  /* ---------------- Shop teaser */
+  .shop-teaser__grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(2, 1fr); list-style: none; padding: 0; }
+  @media (min-width: 900px) { .shop-teaser__grid { grid-template-columns: repeat(4, 1fr); } }
+  .mini-product { display: grid; gap: 0.25rem; text-decoration: none; color: var(--ink-900); }
+  .mini-product__img { display: block; aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden; background: var(--white); margin-bottom: var(--sp-3); }
+  .mini-product__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease); }
+  .mini-product:hover .mini-product__img img { transform: scale(1.05); }
+  .mini-product__name { font-weight: 700; line-height: 1.3; }
+  .mini-product__sub { font-size: 0.85rem; color: var(--ink-500); line-height: 1.35; }
+  .mini-product__price { font-family: var(--font-mono); font-size: 0.9rem; color: var(--red-600); margin-top: 0.15rem; }
+</style>

@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Gallery from '../components/Gallery.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { social, socialGallery, org } from '../data/site';
+---
+<Base
+  title={social.title}
+  description="Eagle Nation social activities in Coventry: community sports tournaments, workshops, coaching and mentoring, and support for children, youth and adults."
+  image="/images/gallery/community-day-05.jpg"
+>
+  <PageHero
+    eyebrow="Coventry community"
+    title={social.heading}
+    lead={social.body[0]}
+    image="/images/gallery/community-day-01.jpg"
+    imageAlt="Coventry City of Culture day."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Social activities' }]}
+  />
+
+  <section class="section">
+    <div class="container social__grid">
+      <div class="prose social__body">
+        {social.body.slice(1).map((p) => <p data-reveal>{p}</p>)}
+      </div>
+      <aside class="offerings" data-reveal style="--d:.08s">
+        <h2 class="offerings__h">{social.offeringsLead.replace(':', '')}</h2>
+        <ol class="offerings__list" role="list">
+          {social.offerings.map((o, i) => (
+            <li><span>0{i + 1}</span>{o}</li>
+          ))}
+        </ol>
+        <a class="btn offerings__donate" href={org.donateUrl} target="_blank" rel="noopener"><Icon name="heart" />Donate</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--paper-2">
+    <div class="container">
+      <div class="gallery-head">
+        <div>
+          <p class="eyebrow" data-reveal>Gallery</p>
+          <h2 data-reveal style="--d:.05s">In the community</h2>
+        </div>
+        <p class="muted" data-reveal>Tap a photo to view it full size.</p>
+      </div>
+      <Gallery images={socialGallery} id="social" ratio="3 / 4" />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .social__grid { display: grid; gap: var(--sp-7); }
+  @media (min-width: 960px) { .social__grid { grid-template-columns: 1.2fr 0.8fr; gap: var(--sp-9); align-items: start; } }
+  .social__body p { font-size: var(--step-1); line-height: 1.6; color: var(--ink-800); }
+  .offerings {
+    background: var(--ink-900); color: var(--paper); border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  }
+  @media (min-width: 960px) { .offerings { position: sticky; top: calc(var(--header-h) + 1.5rem); } }
+  .offerings__h { font-size: var(--step-3); }
+  .offerings__list { list-style: none; padding: 0; margin-top: var(--sp-5); border-top: 1px solid rgb(255 255 255 / 0.1); }
+  .offerings__list li {
+    display: flex; gap: 1rem; align-items: baseline; padding: 0.9rem 0; border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    font-weight: 600; font-size: 1.05rem;
+  }
+  .offerings__list span { font-family: var(--font-mono); font-size: 0.75rem; color: #ff8a8e; }
+  .offerings__donate { margin-top: var(--sp-6); }
+  .offerings__donate::after { background: var(--white) !important; }
+  .offerings__donate:hover { color: var(--ink-900); border-color: var(--white); }
+  .gallery-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--sp-4); margin-bottom: var(--sp-6); }
+  .gallery-head h2 { margin-top: var(--sp-4); }
+</style>

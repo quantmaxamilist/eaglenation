@@ -1,0 +1,105 @@
+---
+import { nav, org, socials, services } from '../data/site';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer on-dark">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <img src="/images/site/logo-colour-on-dark.png" alt="Eagle Nation" width="900" height="458" loading="lazy" />
+        <p class="muted">Football, basketball and music for children and young people in Coventry and Warwickshire.</p>
+        <ul class="site-footer__social" role="list">
+          {socials.map((s) => (
+            <li><a href={s.href} target="_blank" rel="noopener" aria-label={s.label}><Icon name={s.icon} /></a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__h">Explore</h2>
+        <ul role="list">
+          {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__h">What we do</h2>
+        <ul role="list">
+          {services.map((s) => <li><a href={`/${s.slug}/`}>{s.title}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__h">Get in touch</h2>
+        <ul role="list" class="site-footer__contact">
+          <li><Icon name="phone" /><a href={org.phoneHref}>{org.phoneDisplay}</a></li>
+          <li><Icon name="mail" /><a href={`mailto:${org.email}`}>{org.email}</a></li>
+          <li><Icon name="pin" /><span>{org.address.street}<br />{org.address.city} {org.address.postcode}<br />{org.address.country}</span></li>
+        </ul>
+        <a class="btn site-footer__donate" href={org.donateUrl} target="_blank" rel="noopener"><Icon name="heart" />Donate</a>
+      </div>
+    </div>
+
+    <p class="site-footer__wordmark" aria-hidden="true">Eagle<span>Nation</span></p>
+
+    <div class="site-footer__legal">
+      <p>© {year} Eagle Nation Limited — {org.tagline}. Registered Company Limited by guarantee: {org.companyNumber}</p>
+      <ul role="list">
+        <li><a href="/terms-conditions/">Terms &amp; conditions</a></li>
+        <li><a href="/privacy-policy/">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative; overflow: hidden;
+    background: var(--ink-950); color: var(--ink-300);
+    padding-top: var(--sp-9); padding-bottom: var(--sp-6);
+    border-top: 4px solid transparent;
+    border-image: var(--brand-gradient) 1;
+  }
+  .site-footer__top { display: grid; gap: var(--sp-7) var(--sp-5); grid-template-columns: 1fr 1fr; }
+  .site-footer__brand, .site-footer__col:last-child { grid-column: 1 / -1; }
+  @media (min-width: 720px) { .site-footer__brand, .site-footer__col:last-child { grid-column: auto; } }
+  @media (min-width: 1060px) { .site-footer__top { grid-template-columns: 1.4fr 0.8fr 1.1fr 1.2fr; } }
+  .site-footer__brand img { width: 170px; height: auto; }
+  .site-footer__brand p { margin-top: var(--sp-4); max-width: 34ch; font-size: 0.97rem; }
+  .site-footer__social { display: flex; gap: 0.5rem; margin-top: var(--sp-5); flex-wrap: wrap; }
+  .site-footer__social a {
+    display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 0.14); color: var(--paper);
+    transition: background 0.3s var(--ease), border-color 0.3s, transform 0.3s var(--ease);
+  }
+  .site-footer__social a:hover { background: var(--red-600); border-color: var(--red-600); transform: translateY(-2px); }
+  .site-footer__social :global(svg) { width: 1.1rem; height: 1.1rem; }
+  .site-footer__h {
+    font-family: var(--font-mono); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-400); margin-bottom: var(--sp-4); line-height: 1.4;
+  }
+  .site-footer__col ul { display: grid; gap: 0.55rem; }
+  .site-footer__col a { color: var(--paper); text-decoration: none; font-size: 0.97rem; transition: color 0.2s; }
+  .site-footer__col a:hover { color: #ff8a8e; }
+  .site-footer__contact li { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.97rem; color: var(--paper); line-height: 1.5; }
+  .site-footer__contact :global(svg) { flex: none; width: 1.05rem; height: 1.05rem; margin-top: 0.2rem; color: #ff8a8e; }
+  .site-footer__donate { margin-top: var(--sp-5); min-height: 2.7rem; padding: 0.55rem 1.2rem; }
+
+  .site-footer__wordmark {
+    margin-top: var(--sp-8);
+    font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
+    font-size: clamp(3.4rem, 0.5rem + 15.5vw, 15rem); line-height: 0.8; letter-spacing: -0.01em;
+    color: rgb(255 255 255 / 0.06); white-space: nowrap; user-select: none;
+  }
+  .site-footer__wordmark span { color: transparent; -webkit-text-stroke: 1.5px rgb(255 255 255 / 0.1); margin-left: 0.15em; }
+
+  .site-footer__legal {
+    display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-6); justify-content: space-between; align-items: center;
+    margin-top: var(--sp-6); padding-top: var(--sp-5); border-top: 1px solid rgb(255 255 255 / 0.08);
+    font-size: 0.85rem; color: var(--ink-400);
+  }
+  .site-footer__legal ul { display: flex; gap: var(--sp-5); }
+  .site-footer__legal a { color: var(--ink-300); text-decoration: none; }
+  .site-footer__legal a:hover { color: var(--white); }
+</style>

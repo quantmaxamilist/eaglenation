@@ -1,0 +1,139 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { org, socials } from '../data/site';
+const mapQuery = encodeURIComponent(`${org.address.street}, ${org.address.city} ${org.address.postcode}`);
+---
+<Base
+  title="Contact – Eagle Nation"
+  description="Contact Eagle Nation in Coventry: call 07803 492996, e-mail contact@eaglenation.co.uk or send a message to enrol and find out more."
+>
+  <PageHero
+    eyebrow="Enrol · Ask a question"
+    title="Contact"
+    lead="Please contact us to enroll and find more details."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
+  />
+
+  <section class="section contact">
+    <div class="container contact__grid">
+      <!-- Same fields as the old WPForms form: Name (First, Last), Email, Numbers, Message -->
+      <form
+        class="contact-form"
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="company"
+        data-contact-form
+        data-email={org.email}
+        data-reveal
+      >
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="visually-hidden"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off" /></label></p>
+        <h2 class="contact-form__h">Send us a message</h2>
+        <fieldset class="contact-form__row">
+          <legend>Name <span aria-hidden="true">*</span></legend>
+          <label class="field">
+            <span class="field__label">First</span>
+            <input name="first-name" autocomplete="given-name" required />
+          </label>
+          <label class="field">
+            <span class="field__label">Last</span>
+            <input name="last-name" autocomplete="family-name" required />
+          </label>
+        </fieldset>
+        <label class="field">
+          <span class="field__label">Email <span aria-hidden="true">*</span></span>
+          <input type="email" name="email" autocomplete="email" required />
+        </label>
+        <label class="field">
+          <span class="field__label">Numbers</span>
+          <input type="tel" name="phone" autocomplete="tel" />
+        </label>
+        <label class="field">
+          <span class="field__label">Message</span>
+          <textarea name="message" rows="6"></textarea>
+        </label>
+        <div class="contact-form__foot">
+          <button class="btn" type="submit">Send <Icon name="arrow" /></button>
+          <p class="contact-form__status" data-form-status role="status" aria-live="polite"></p>
+        </div>
+      </form>
+
+      <aside class="contact-info" data-reveal style="--d:.08s">
+        <img class="contact-info__mark" src="/images/site/eagle-mark.png" alt="" width="512" height="498" loading="lazy" />
+        <ul role="list" class="contact-info__list">
+          <li>
+            <span class="contact-info__k">Phone</span>
+            <a class="contact-info__v" href={org.phoneHref}>{org.phoneDisplay}</a>
+          </li>
+          <li>
+            <span class="contact-info__k">Email</span>
+            <a class="contact-info__v" href={`mailto:${org.email}`}>{org.email}</a>
+          </li>
+          <li>
+            <span class="contact-info__k">Address</span>
+            <address class="contact-info__v">
+              {org.address.street}<br />{org.address.city}<br />{org.address.postcode}<br />{org.address.country}
+            </address>
+            <a class="link-arrow contact-info__dir" href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noopener">Get directions <Icon name="arrow-up-right" /></a>
+          </li>
+        </ul>
+        <ul class="contact-info__social" role="list">
+          {socials.map((s) => (
+            <li><a href={s.href} target="_blank" rel="noopener" aria-label={s.label}><Icon name={s.icon} /></a></li>
+          ))}
+        </ul>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact__grid { display: grid; gap: var(--sp-6); align-items: start; }
+  @media (min-width: 960px) { .contact__grid { grid-template-columns: 1.3fr 0.7fr; gap: var(--sp-7); } }
+
+  .contact-form {
+    display: grid; gap: var(--sp-5);
+    background: var(--white); border: 1px solid var(--paper-3); border-radius: var(--radius-lg);
+    padding: clamp(1.4rem, 1rem + 2.5vw, 3rem);
+  }
+  .contact-form__h { font-size: var(--step-3); }
+  .contact-form__row { border: 0; padding: 0; margin: 0; display: grid; gap: var(--sp-4); }
+  @media (min-width: 560px) { .contact-form__row { grid-template-columns: 1fr 1fr; } }
+  .contact-form__row legend { grid-column: 1 / -1; font-weight: 700; margin-bottom: var(--sp-2); padding: 0; }
+  .field { display: grid; gap: 0.4rem; }
+  .field__label { font-weight: 700; font-size: 0.95rem; }
+  .contact-form__row .field__label { font-weight: 500; color: var(--ink-500); font-size: 0.85rem; }
+  .field input, .field textarea {
+    width: 100%; padding: 0.85rem 1rem; border-radius: var(--radius);
+    border: 1.5px solid var(--paper-3); background: var(--paper);
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  }
+  .field textarea { resize: vertical; min-height: 9rem; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--blue-600); background: var(--white); box-shadow: 0 0 0 4px rgb(4 112 185 / 0.14); }
+  .contact-form__foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-4); }
+  .contact-form__status { font-weight: 600; color: var(--ink-600); }
+  .contact-form__status[data-state='ok'] { color: #1b7a43; }
+
+  .contact-info {
+    position: relative; overflow: hidden; isolation: isolate;
+    background: var(--ink-900); color: var(--paper); border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  }
+  .contact-info__mark { position: absolute; z-index: -1; width: 70%; right: -18%; bottom: -14%; opacity: 0.1; filter: grayscale(1) brightness(3); }
+  .contact-info__list { display: grid; gap: var(--sp-5); }
+  .contact-info__list li { display: grid; gap: 0.3rem; padding-bottom: var(--sp-5); border-bottom: 1px solid rgb(255 255 255 / 0.1); }
+  .contact-info__k { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-400); }
+  .contact-info__v { font-size: var(--step-1); font-weight: 600; color: var(--white); text-decoration: none; font-style: normal; line-height: 1.45; overflow-wrap: anywhere; }
+  a.contact-info__v:hover { color: #ff8a8e; }
+  .contact-info__dir { color: #8cc7f0; margin-top: var(--sp-2); justify-self: start; font-size: 0.95rem; }
+  .contact-info__social { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--sp-5); }
+  .contact-info__social a {
+    display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 0.16); color: var(--paper); transition: background 0.3s, border-color 0.3s;
+  }
+  .contact-info__social a:hover { background: var(--red-600); border-color: var(--red-600); }
+  .contact-info__social :global(svg) { width: 1.1rem; height: 1.1rem; }
+</style>

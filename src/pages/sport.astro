@@ -1,0 +1,188 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Gallery from '../components/Gallery.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { sport, sportGallery, org } from '../data/site';
+const b = sport.basketball;
+const f = sport.football;
+---
+<Base
+  title={sport.title}
+  description="Eagle Nation Sport: football and basketball sessions and individual lessons for children and youth aged 6 to 16 in Coventry, delivered by DBS-checked, FA-qualified coaches."
+  image="/images/gallery/basketball-jump-shot.jpg"
+>
+  <PageHero
+    eyebrow="Life Skills Through Sports · Ages 6–16"
+    title={sport.heading}
+    lead={sport.intro}
+    image="/images/gallery/basketball-jump-shot.jpg"
+    imageAlt="Players practising jump shots in a sports hall"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Sport' }]}
+  />
+
+  <!-- Sessions offered -->
+  <section class="section offer">
+    <div class="container offer__grid">
+      <div>
+        <p class="eyebrow" data-reveal>Sessions</p>
+        <h2 data-reveal style="--d:.05s">{sport.offerLead.replace(':', '')}</h2>
+      </div>
+      <div>
+        <ol class="offer__list" role="list">
+          {sport.offers.map((o, i) => (
+            <li data-reveal style={`--d:${i * 0.07}s`}>
+              <span class="offer__num">0{i + 1}</span>
+              <span class="offer__name">{o}</span>
+              <Icon name={o === 'Football' ? 'football' : o === 'Basketball' ? 'ball' : 'users'} class="offer__icon" />
+            </li>
+          ))}
+        </ol>
+        <p class="lead offer__outro" data-reveal>{sport.outro}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fixture cards -->
+  <section class="section section--paper-2 fixtures">
+    <div class="container">
+      <div class="fixtures__grid">
+        <article class="fx fx--football" id="football" data-reveal>
+          <header class="fx__head">
+            <span class="fx__sport"><Icon name="football" />{f.name}</span>
+            <span class="fx__status fx__status--live">Weekly</span>
+          </header>
+          <p class="fx__lead">{f.lead}</p>
+          <div class="fx__board">
+            <div><span class="fx__k">Squads</span><span class="fx__v">{f.groups}</span></div>
+            <div><span class="fx__k">Day</span><span class="fx__v">Every {f.day}</span></div>
+            <div><span class="fx__k">Kick-off</span><span class="fx__v">{f.time}</span></div>
+          </div>
+          <p class="fx__venue"><Icon name="pin" /><span>{f.venue}</span></p>
+          <p class="fx__note">{f.training}</p>
+          <p class="fx__note">{f.safeguarding}</p>
+          <p class="fx__note">{f.moreLead} <a class="inline-link" href={org.footballClubUrl} target="_blank" rel="noopener">{org.footballClubLabel}</a></p>
+        </article>
+
+        <article class="fx fx--basketball" id="basketball" data-reveal style="--d:.08s">
+          <header class="fx__head">
+            <span class="fx__sport"><Icon name="ball" />{b.name}</span>
+            <span class="fx__status">{b.status}</span>
+          </header>
+          <div class="fx__board">
+            <div><span class="fx__k">Day</span><span class="fx__v">{b.day}</span></div>
+            <div><span class="fx__k">Price</span><span class="fx__v">{b.price.replace(' per session', '')}</span><span class="fx__s">per session</span></div>
+          </div>
+          <p class="fx__venue"><Icon name="pin" /><span>{b.venue}</span></p>
+          <div class="photo fx__img">
+            <img src="/images/gallery/basketball-session-hall.jpg" alt="Basketball session" width="1800" height="1350" loading="lazy" />
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coaches -->
+  <section class="coaches on-dark">
+    <div class="photo coaches__bg" aria-hidden="true">
+      <img src="/images/stock/sport-football-night.jpg" alt="" width="2200" height="1467" loading="lazy" />
+    </div>
+    <div class="container coaches__inner">
+      <div class="coaches__head" data-reveal>
+        <p class="eyebrow">Safeguarding</p>
+        <h2>{sport.coachesLead.replace(':', '')}</h2>
+      </div>
+      <ul class="coaches__list" role="list">
+        {sport.coaches.map((c, i) => (
+          <li data-reveal style={`--d:${i * 0.08}s`}><Icon name="shield" /><span>{c}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section">
+    <div class="container">
+      <div class="gallery-head">
+        <div>
+          <p class="eyebrow" data-reveal>Gallery</p>
+          <h2 data-reveal style="--d:.05s">On the court and the pitch</h2>
+        </div>
+        <p class="muted" data-reveal>Tap a photo to view it full size.</p>
+      </div>
+      <Gallery images={sportGallery} id="sport" />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .offer__grid { display: grid; gap: var(--sp-6); }
+  @media (min-width: 900px) { .offer__grid { grid-template-columns: 0.9fr 1.1fr; gap: var(--sp-9); } }
+  .offer h2 { margin-top: var(--sp-4); }
+  .offer__list { list-style: none; padding: 0; border-top: 1px solid var(--paper-3); }
+  .offer__list li {
+    display: grid; grid-template-columns: auto 1fr auto; gap: var(--sp-5); align-items: center;
+    padding: var(--sp-5) 0; border-bottom: 1px solid var(--paper-3);
+  }
+  .offer__num { font-family: var(--font-mono); font-size: 0.85rem; color: var(--red-600); }
+  .offer__name { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: var(--step-4); line-height: 0.95; }
+  .offer :global(.offer__icon) { width: 2.2rem; height: 2.2rem; color: var(--blue-600); stroke-width: 1.4; }
+  .offer__outro { margin-top: var(--sp-6); color: var(--ink-700); max-width: 44ch; }
+
+  .fixtures__grid { display: grid; gap: var(--sp-5); }
+  @media (min-width: 960px) { .fixtures__grid { grid-template-columns: 1.15fr 0.85fr; align-items: start; } }
+  .fx {
+    background: var(--white); border-radius: var(--radius-lg); padding: clamp(1.4rem, 1rem + 2vw, 2.4rem);
+    border: 1px solid var(--paper-3); display: grid; gap: var(--sp-5); scroll-margin-top: calc(var(--header-h) + 1rem);
+  }
+  .fx--football { border-top: 6px solid var(--red-600); }
+  .fx--basketball { border-top: 6px solid var(--blue-600); }
+  .fx__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+  .fx__sport { display: inline-flex; align-items: center; gap: 0.7rem; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: var(--step-4); line-height: 0.9; }
+  .fx__sport :global(svg) { width: 2.2rem; height: 2.2rem; stroke-width: 1.5; color: var(--red-600); }
+  .fx--basketball .fx__sport :global(svg) { color: var(--blue-600); }
+  .fx__status {
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.4rem 0.75rem; border-radius: 999px; background: var(--paper-2); color: var(--ink-700);
+  }
+  .fx__status--live { background: var(--red-100); color: var(--red-700); display: inline-flex; align-items: center; gap: 0.45rem; }
+  .fx__status--live::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--red-600); animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: 0.3; } }
+  .fx__lead { font-size: var(--step-1); line-height: 1.5; color: var(--ink-800); }
+  .fx__board {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border-radius: var(--radius); overflow: hidden;
+    background: var(--ink-900); color: var(--paper);
+  }
+  .fx__board > div { display: grid; gap: 0.25rem; padding: 1rem 1.1rem; border-right: 1px solid rgb(255 255 255 / 0.08); }
+  .fx__board > div:last-child { border-right: 0; }
+  .fx__k { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-400); }
+  .fx__v { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: clamp(1.4rem, 1rem + 1.4vw, 2rem); line-height: 1; }
+  .fx__s { font-size: 0.8rem; color: var(--ink-300); }
+  .fx__venue { display: flex; gap: 0.6rem; align-items: flex-start; font-weight: 600; }
+  .fx__venue :global(svg) { flex: none; width: 1.2rem; height: 1.2rem; margin-top: 0.2rem; color: var(--red-600); }
+  .fx__note { color: var(--ink-600); }
+  .fx__img { border-radius: var(--radius); aspect-ratio: 4 / 3; }
+
+  .coaches { position: relative; isolation: isolate; overflow: hidden; background: var(--ink-900); color: var(--paper); padding-block: clamp(5rem, 3rem + 8vw, 10rem); }
+  .coaches__bg { position: absolute; inset: 0; z-index: -1; }
+  .coaches__bg img { object-position: 70% 60%; }
+  .coaches__bg::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgb(13 17 26 / 0.92) 20%, rgb(13 17 26 / 0.55)); }
+  .coaches__inner { display: grid; gap: var(--sp-6); align-items: center; }
+  @media (min-width: 900px) { .coaches__inner { grid-template-columns: 0.8fr 1.2fr; } }
+  .coaches h2 { margin-top: var(--sp-3); font-size: var(--step-4); }
+  .coaches__list { display: grid; gap: var(--sp-3); }
+  @media (min-width: 640px) { .coaches__list { grid-template-columns: repeat(3, 1fr); } }
+  .coaches__list li {
+    display: flex; align-items: center; gap: 0.8rem; padding: 1.2rem 1.2rem; border-radius: var(--radius-lg);
+    background: rgb(13 17 26 / 0.7); border: 1px solid rgb(255 255 255 / 0.14);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    font-weight: 700; font-size: 1.05rem; line-height: 1.25;
+  }
+  .coaches__list :global(svg) { flex: none; width: 1.8rem; height: 1.8rem; color: #8cc7f0; stroke-width: 1.5; }
+
+  .gallery-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--sp-4); margin-bottom: var(--sp-6); }
+  .gallery-head h2 { margin-top: var(--sp-4); }
+</style>

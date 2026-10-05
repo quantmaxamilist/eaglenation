@@ -1,0 +1,11 @@
+---
+import Icon from './Icon.astro';
+---
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <p class="lightbox__caption" id="lightbox-caption"></p>
+  <img id="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="" />
+  <button class="lightbox__btn lightbox__close" type="button" data-lb="close" aria-label="Close"><Icon name="close" /></button>
+  <button class="lightbox__btn lightbox__prev" type="button" data-lb="prev" aria-label="Previous photo"><Icon name="prev" /></button>
+  <button class="lightbox__btn lightbox__next" type="button" data-lb="next" aria-label="Next photo"><Icon name="next" /></button>
+  <p class="lightbox__count" id="lightbox-count"></p>
+</div>

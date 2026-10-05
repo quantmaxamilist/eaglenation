@@ -1,0 +1,24 @@
+# 301s from the old WordPress / WooCommerce URLs (Netlify / Cloudflare Pages).
+/contact-2/                          /contact/                              301
+/contact-2                           /contact/                              301
+/page-d-exemple/                     /                                      301
+/politique-de-confidentialite/       /privacy-policy/                       301
+/panier/                             /shop/                                 301
+/commander/                          /shop/                                 301
+/mon-compte/                         /shop/                                 301
+/mon-compte/*                        /shop/                                 301
+/author/*                            /                                      301
+/home_slider/*                       /                                      301
+/feed/                               /                                      301
+/feed/*                              /                                      301
+/wp-sitemap.xml                      /sitemap-index.xml                     301
+/wp-sitemap*                         /sitemap-index.xml                     301
+/shop/page/*                         /shop/                                 301
+/categorie-produit/*                 /shop/                                 301
+/produit/oversized-heavyweight-hoodie/    /shop/oversized-heavyweight-hoodie/    301
+/produit/oversized-heavyweight-t-shirt/   /shop/oversized-heavyweight-t-shirt/   301
+/produit/unisex-hoodie/              /shop/unisex-hoodie/                   301
+/produit/unisex-hoodie-2/            /shop/unisex-hoodie-2/                 301
+/produit/aluminium-water-bottle-2/   /shop/aluminium-water-bottle/          301
+# Older products no longer sold (seen in the Wayback index) all land on the shop.
+/produit/*                           /shop/                                 301
